@@ -1,8 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from random import randint
+from matplotlib.animation import FuncAnimation
 
 # starting state
-start = [0.2333,0.222]
+start = [0.26,0.33]
 
 # time
 n = 50
@@ -46,9 +48,34 @@ for i in range(n):
     else:
         statelabels[i] = "B"
 
-print(statelabels)
-duplicateFrequencies = {}
+# counts frequency of A and B
+bernoulliCount = {}
 for i in set(statelabels):
-    duplicateFrequencies[i] = statelabels.count(i)
+    bernoulliCount[i] = statelabels.count(i)
+proportionA = bernoulliCount["A"]/n
+proportionB = bernoulliCount["B"]/n
+print(f"Proportion of A's: {proportionA} \nProportion of B's: {proportionB}")
+print(states)
 
-print(duplicateFrequencies)
+# plot animation
+x = []
+y = []
+fig, ax = plt.subplots()
+
+# Bernoulli regions
+ax.hlines(y=0.5, xmin=0, xmax=1)
+ax.vlines(x=0.5, ymin=0, ymax=1)
+ax.set_xlim([0,1])
+ax.set_ylim([0,1])
+ax.fill_between([0,0.5], 0, 0.5, color='blue', alpha=.2)
+ax.fill_between([0.5,1], 0, 0.5, color='red', alpha=.2)
+ax.fill_between([0.5,1], 0.5, 1, color='blue', alpha=.2)
+ax.fill_between([0,0.5], 0.5, 1, color='red', alpha=.2)
+def animate(i):
+    x.append(statesx[i])
+    y.append(statesy[i])
+    ax.plot(x, y, "bo")
+
+ani = FuncAnimation(fig, animate, frames=n, interval=250, repeat=False)
+
+plt.show()
