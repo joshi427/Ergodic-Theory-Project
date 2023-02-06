@@ -1,10 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from random import randint
+import random
 from matplotlib.animation import FuncAnimation
+import pandas as pd
 
 # starting state
-start = [0.26,0.33]
+start = [random.uniform(0,1),random.uniform(0,1)]
 
 # time
 n = 50
@@ -33,8 +34,8 @@ for i in range(n):
     statesy[i] = states[i][1]
 
 # plot transformations
-plt.scatter(statesx,statesy)
-plt.show()
+# plt.scatter(statesx,statesy)
+# plt.show()
 
 # dividing space into A and B
 statelabels = [0 for j in range(n)]
@@ -58,8 +59,7 @@ print(f"Proportion of A's: {proportionA} \nProportion of B's: {proportionB}")
 print(states)
 
 # plot animation
-x = []
-y = []
+dict = {"X": [], "Y": [], "Label": []}
 fig, ax = plt.subplots()
 
 # Bernoulli regions
@@ -71,11 +71,33 @@ ax.fill_between([0,0.5], 0, 0.5, color='blue', alpha=.2)
 ax.fill_between([0.5,1], 0, 0.5, color='red', alpha=.2)
 ax.fill_between([0.5,1], 0.5, 1, color='blue', alpha=.2)
 ax.fill_between([0,0.5], 0.5, 1, color='red', alpha=.2)
+ax.annotate("A",xy=(0.25,0.25), ha = "center", va = "center", size = 20, color = "blue")
+ax.annotate("A",xy=(0.75,0.75), ha = "center", va = "center", size = 20, color = "blue")
+ax.annotate("B",xy=(0.25,0.75), ha = "center", va = "center", size = 20, color = "red")
+ax.annotate("B",xy=(0.75,0.25), ha = "center", va = "center", size = 20, color = "red")
+
 def animate(i):
-    x.append(statesx[i])
-    y.append(statesy[i])
-    ax.plot(x, y, "bo")
+    i = i+1
+    print(i)
+    dict["X"].append(statesx[i])
+    dict["Y"].append(statesy[i])
+
+    if statesx[i] <=0.5 and statesy[i] <=0.5:
+        ax.plot(dict["X"][i], dict["Y"][i], "bo")
+    elif statesx[i] >= 0.5 >= statesy[i]:
+        ax.plot(dict["X"][i], dict["Y"][i], "ro")
+    elif statesx[i] <= 0.5 <= statesy[i]:
+        ax.plot(dict["X"][i], dict["Y"][i], "ro")
+    else:
+        ax.plot(dict["X"][i], dict["Y"][i], "bo")
 
 ani = FuncAnimation(fig, animate, frames=n, interval=250, repeat=False)
 
 plt.show()
+
+print("dict")
+print(dict["X"])
+print("states")
+print(states)
+print(statesx)
+print(statesy)
