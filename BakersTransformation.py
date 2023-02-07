@@ -33,10 +33,6 @@ for i in range(n):
     statesx[i] = states[i][0]
     statesy[i] = states[i][1]
 
-# plot transformations
-# plt.scatter(statesx,statesy)
-# plt.show()
-
 # dividing space into A and B
 statelabels = [0 for j in range(n)]
 for i in range(n):
@@ -50,13 +46,13 @@ for i in range(n):
         statelabels[i] = "B"
 
 # counts frequency of A and B
-bernoulliCount = {}
-for i in set(statelabels):
-    bernoulliCount[i] = statelabels.count(i)
-proportionA = bernoulliCount["A"]/n
-proportionB = bernoulliCount["B"]/n
-print(f"Proportion of A's: {proportionA} \nProportion of B's: {proportionB}")
-print(states)
+def countLabels(i,statelabels):
+    bernoulliCount = {"A": 0,"B": 0}
+    for j in set(statelabels):
+        bernoulliCount[j] = statelabels.count(j)
+    proportionA = bernoulliCount["A"]/i
+    return [bernoulliCount,proportionA]
+
 
 # plot animation
 dict = {"X": [], "Y": [], "Label": []}
@@ -77,27 +73,46 @@ ax.annotate("B",xy=(0.25,0.75), ha = "center", va = "center", size = 20, color =
 ax.annotate("B",xy=(0.75,0.25), ha = "center", va = "center", size = 20, color = "red")
 
 def animate(i):
-    i = i+1
-    print(i)
     dict["X"].append(statesx[i])
     dict["Y"].append(statesy[i])
-
+    dict["Label"].append(statelabels[i])
     if statesx[i] <=0.5 and statesy[i] <=0.5:
-        ax.plot(dict["X"][i], dict["Y"][i], "bo")
-    elif statesx[i] >= 0.5 >= statesy[i]:
-        ax.plot(dict["X"][i], dict["Y"][i], "ro")
-    elif statesx[i] <= 0.5 <= statesy[i]:
-        ax.plot(dict["X"][i], dict["Y"][i], "ro")
-    else:
-        ax.plot(dict["X"][i], dict["Y"][i], "bo")
+        ax.plot(dict["X"][i], dict["Y"][i], "bo", markersize= 10)
+        plt.text(dict["X"][i], dict["Y"][i], str(i+1), ha='center', va="center_baseline", size=9, color='white', weight="heavy")
 
-ani = FuncAnimation(fig, animate, frames=n, interval=250, repeat=False)
+
+    elif statesx[i] >= 0.5 >= statesy[i]:
+        ax.plot(dict["X"][i], dict["Y"][i], "ro", markersize= 10)
+        plt.text(dict["X"][i], dict["Y"][i], str(i + 1), ha='center', va="center_baseline", size=9, color='white', weight="heavy")
+
+    elif statesx[i] <= 0.5 <= statesy[i]:
+        ax.plot(dict["X"][i], dict["Y"][i], "ro", markersize= 10)
+        plt.text(dict["X"][i], dict["Y"][i], str(i + 1), ha='center', va="center_baseline", size=9, color='white', weight="heavy")
+
+    else:
+        ax.plot(dict["X"][i], dict["Y"][i], "bo", markersize= 10)
+        plt.text(dict["X"][i], dict["Y"][i], str(i + 1), ha='center', va="center_baseline", size=9, color='white', weight="heavy")
+
+    # convoluted formatting
+    if countLabels(i+1,dict["Label"])[0]["A"] == 0:
+        a = "%02d" % 0
+    else:
+        a = ["%02d" % x for x in range(countLabels(i+1,dict["Label"])[0]["A"]+1)][-1]
+    if countLabels(i + 1, dict["Label"])[0]["B"] == 0:
+        b = "%02d" % 0
+    else:
+        b = ["%02d" % x for x in range(countLabels(i+1,dict["Label"])[0]["B"]+1)][-1]
+    c = "%.2f" % round(countLabels(i+1,dict["Label"])[1],2)
+    plt.figtext(0.5, 0.95, f"A: {a} B: {b} Proportion: {c}", ha="center", va="center", fontsize=18, bbox={"facecolor": "white"})
+    for txt in fig.texts[:-1]:
+        txt.set_visible(False)
+
+# fixes the double 0 index problem,
+# the double 0 comes from an initialization of the animation,
+# now the initialization is to do nothing
+def doNothing():
+    pass
+
+ani = FuncAnimation(fig, animate,frames=n, init_func=doNothing,interval=250, repeat=False)
 
 plt.show()
-
-print("dict")
-print(dict["X"])
-print("states")
-print(states)
-print(statesx)
-print(statesy)
