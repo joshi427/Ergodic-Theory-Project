@@ -13,10 +13,10 @@ n = 50
 # Baker's transform
 def transform(x,y):
     if x <= 0.5:
-        x = 2*x
+        x = (2*x) % 1
         y = y/2
     else:
-        x = 2*x - 1
+        x = 2*x % 1
         y = y/2 + 0.5
     return [x,y]
 
@@ -103,7 +103,8 @@ def animate(i):
     else:
         b = ["%02d" % x for x in range(countLabels(i+1,dict["Label"])[0]["B"]+1)][-1]
     c = "%.2f" % round(countLabels(i+1,dict["Label"])[1],2)
-    plt.figtext(0.5, 0.95, f"A: {a} B: {b} Proportion: {c}", ha="center", va="center", fontsize=18, bbox={"facecolor": "white"})
+    d = "%.2f" % float(1-float(c))
+    plt.figtext(0.5, 0.95, f"A: {a} B: {b} A%: {c} B%: {d}", ha="center", va="center", fontsize=18, bbox={"facecolor": "white"})
     for txt in fig.texts[:-1]:
         txt.set_visible(False)
 
