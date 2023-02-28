@@ -1,0 +1,26 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[]{amsthm} 
+\usepackage[]{amssymb} 
+\usepackage[margin=0.5in]{geometry}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{bigints}
+
+\title{Ergodic Theory}
+\author{Joseph Fantini}
+
+
+\begin{document}
+\maketitle
+
+% Check page 13-14 of Peterson for Proof of Change of variables
+$\bigints_X fd\mu = \bigints_X fTd\mu.$
+This follows from the change of variables formula. For measure-preserving $T: X \rightarrow X$ the push-forward measure $T_*\mu = \mu$. Then, by the change of variables formula,
+$\bigints_X fdT_*\mu = \bigints_{TX} fTd\mu.$ Since $TX = X$ and $T_*\mu = \mu$ we have,
+$\bigints_X fd\mu = \bigints_{X} fTd\mu.$
+
+
+\end{document}
