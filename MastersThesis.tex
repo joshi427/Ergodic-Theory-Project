@@ -8,19 +8,66 @@
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{bigints}
+\usepackage{mathrsfs}
+\usepackage[T1]{fontenc}
+
 
 \title{Ergodic Theory}
 \author{Joseph Fantini}
 
+\newtheorem{Thm}{Theorem}
+\newtheorem{lem}{Lemma}
+\newtheorem{mydef}{Definition}
 
 \begin{document}
 \maketitle
 
+Unless oth
+
+\begin{mydef}
+    A point $x \in B$ is recurrent with respect to B if $\exists k\in \mathbb{N}$ such that $T^kx\in B$.
+\end{mydef}
+
+\begin{lem}
 % Check page 13-14 of Peterson for Proof of Change of variables
 $\bigints_X fd\mu = \bigints_X fTd\mu.$
-This follows from the change of variables formula. For measure-preserving $T: X \rightarrow X$ the push-forward measure $T_*\mu = \mu$. Then, by the change of variables formula,
-$\bigints_X fdT_*\mu = \bigints_{TX} fTd\mu.$ Since $TX = X$ and $T_*\mu = \mu$ we have,
-$\bigints_X fd\mu = \bigints_{X} fTd\mu.$
+\begin{proof}[Proof:]
+    This follows from the change of variables formula. For measure-preserving $T: X \rightarrow X$ the push-forward measure $T_*\mu = \mu$. Then, by the change of variables formula,
+    $\bigints_X fdT_*\mu = \bigints_{TX} fTd\mu.$ Since $TX = X$ and $T_*\mu = \mu$ we have,
+    $\bigints_X fd\mu = \bigints_{X} fTd\mu.$
+\end{proof}
+\end{lem}
 
+\begin{Thm}
+    The Mean Ergodic Theorem
+\end{Thm}
 
+\noindent(Theorem 2.1 in Petersen, page 27, attributed to Wiener, Yosida, and Kakutani)
+\begin{Thm}
+    The Maximal Ergodic Theorem
+\end{Thm}
+
+\begin{Thm}
+    The Pointwise Ergodic Theorem
+\end{Thm}
+
+\noindent Page 34 in Petersen.
+\begin{Thm}
+    Poincare Recurrence Theorem. For each $B\in \mathscr{B}$ almost every $x\in B$ is recurrent with respect to $B$.
+\begin{proof}[Proof:]
+    Let $A = \{x\in B : T^kx \notin B, \forall k \in \mathbb{N}\}$ be the set of points in $B$ that are not recurrent with respect to $B$. Then
+    \begin{equation*}
+        A = B\setminus \cup_{k=1}^\infty T^{-k}B = B\cap(\cup_{k=1}^\infty T^{-k}(B^\mathsf{c}))
+    \end{equation*}
+    So $A$ is the set of all points in $B$ that are mapped to $B^\mathsf{c}$ by $T^k$ $\forall k\in\mathbb{N}$. If $x\in A$ then $T^nx\notin A$ $\forall n\in\mathbb{N}$ because $F \subset B$ so if $T^nx \in F$, $T^nx \in B$, making $x$ recurrent with respect to $B$. So $A\cap T^{-n}A = \varnothing$ $\forall n\in\mathbb{N}$ and $T^{-k}A\cap T^{-(n+k-1)}A = \varnothing$ $\forall k,n \in \mathbb{N}$. Then $A$ and $T^{-k}A$ are pairwise disjoint $\forall k\in\mathbb{N}$. Since $T$ is a measure preserving transformation $\mu(A)=\mu(T^{-k}A)$ $\forall k\in\mathbb{N}$. Therefore $\mu(\cup_{k=0}^\infty T^{-k}A) = \sum_{k=0}^\infty \mu(T^{-k}A) = \sum_{k=0}^\infty\mu(A) \leq \mu(X) < \infty$, so $\mu(A) = 0$. 
+\end{proof}
+\end{Thm}
+
+\noindent(Theorem 3.3 in Petersen, page 37, attributed to Khintchine) This theorem generalizes Poincare's theorem. The theorem states that points "leaving" B come back frequently (with bounded gaps). Another way to interpret the theorem is that on average (on intervals of length K) the proportion of points that revisit B at each iterate is proportional to the measure of B. Probabilistically, B and $T^kB$ are "at worst" independent. Or the conditional probability of $T^kB$ given B is just the probability of $T^kB$.
+\begin{Thm}
+For any B $\in \mathscr{B}$ and any $\epsilon > 0$, $E_\epsilon = \{k\in\mathbb{Z}:\mu(T^kB\cap B \geq \mu(B)^2 - \epsilon\}$ is relatively dense.
+\begin{proof}
+Consider the Hilbert space $L^2(X,\mathscr{B},\mu)$ and let $U: L^2 \rightarrow L^2$ be the unitary operator induced by $T$.
+\end{proof}
+\end{Thm}
 \end{document}
